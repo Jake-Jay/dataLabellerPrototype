@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Data Labeller Prototype</string>
+    <string name="image_to_id">image_to_id</string>
+    <string name="class_suggestion_text">Carling Black Label</string>
+    <string name="yes_symbol">yes symbol</string>
+    <string name="no_symbol">no symbol</string>
+    <string name="encourage_text">Easy. Give me another!</string>
+    <string name="question_text">Is this a...</string>
+    <string name="default_imageID">0</string>
+    <string name="loading_activity_label">Loading Activity</string>
+    <string name="loading_message">Just fetching your most personal details...</string>
+</resources>

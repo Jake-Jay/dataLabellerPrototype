@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/pattern"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            app:srcCompat="@drawable/beer"
+            android:contentDescription="@string/image_to_id"
+            />
+
+        <TextView
+            android:id="@+id/hidden_imageID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_imageID"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/light_grey"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        >
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="@string/question_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:fontFamily="@font/sonika_italic"
+            android:padding="10dp"
+            />
+
+        <ImageButton
+            android:id="@+id/no_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/thumb_down"
+            android:contentDescription="@string/no_symbol"
+            android:background="@drawable/roundcorner_g"
+            android:backgroundTint="@color/light_red"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:onClick="proceedNo"
+            android:padding="10dp"
+
+            />
+
+        <TextView
+            android:id="@+id/class_suggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/class_suggestion_text"
+            android:layout_toEndOf="@+id/no_symbol"
+            android:layout_toRightOf="@+id/no_symbol"
+            android:layout_toStartOf="@+id/yes_symbol"
+            android:layout_toLeftOf="@+id/yes_symbol"
+
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/question"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textStyle="bold"
+            app:fontFamily="@font/sonika_bold"
+            />
+
+        <ImageButton
+            android:id="@+id/yes_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/thumb_up"
+            android:contentDescription="@string/yes_symbol"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="proceedYes"
+            android:padding="10dp"
+            android:background="@drawable/roundcorner_g"
+
+            />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/encourage_text"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:background="@drawable/roundcorner_g"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="getNextImage"
+            app:fontFamily="@font/sonika_bold"
+            android:padding="15dp"
+
+            android:visibility="invisible"
+            />
+
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
+
