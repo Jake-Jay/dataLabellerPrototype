@@ -18,7 +18,7 @@ public class NetworkUtils
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
     // Will be bound together to make a single URI
-    private static final String BASE_URL =  "http://10.0.2.2:5000/api/"; // Base URI
+    private static final String BASE_URL =  "http://10.20.20.101:5000/api/"; // Base URI
     private static final String GET_PATTERN =  "pattern";
     private static final String UNLABELLED =  "unlabelled"; // Base URI
 

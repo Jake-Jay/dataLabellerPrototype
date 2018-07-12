@@ -18,7 +18,7 @@ import java.net.URL;
 public class RegisterUser extends AsyncTask<String, Void, String> {
 
     private static final String LOG_TAG = RegisterUser.class.getSimpleName();
-    private static final String BASE_URL =  "http://10.0.2.2:5000/api/"; // Base URI
+    private static final String BASE_URL =  "http://http://10.20.20.101:5000/api/"; // Base URI
     private static final String LABEL_1 =  "register";
 
 
