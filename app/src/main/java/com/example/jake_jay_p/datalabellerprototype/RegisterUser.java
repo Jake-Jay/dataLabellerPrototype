@@ -28,6 +28,7 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
         String JsonResponse = null;     // For JSON response from server
         String JsonDATA = strings[0];   // JSON data to send to server
 
+        Log.d(LOG_TAG, "Should be sending " + JsonDATA + " to the server.");
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -36,19 +37,23 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
             Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                     .appendPath(LABEL_1)
                     .build();
-            URL postURL = new URL(builtURI.toString());
+            URL postURL = new URL("http://10.20.20.101:5000/api/register");
             Log.d(LOG_TAG, postURL.toString());
             urlConnection = (HttpURLConnection) postURL.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.connect();
 
+            Log.d(LOG_TAG, "Should see this message if connection is successful 1");
 
             //---- Set the header and method
             Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
             writer.write(JsonDATA);
             writer.close();
+
+            Log.d(LOG_TAG, "Should see this message if connection is successful 2");
 
             //---- Setup the input stream to receive the response
             InputStream inputStream = urlConnection.getInputStream();
@@ -56,6 +61,8 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
             if( inputStream == null){
                 return null;
             }
+
+            Log.d(LOG_TAG, "Should see this message if connection is successful 3");
 
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;

@@ -24,7 +24,7 @@ public class AddLabel extends AsyncTask<String, Void, String> {
     //    POST -d '{"device_number":"990000862401821", "label":"hansa"}'
     //    http://localhost:5000/api/pattern/5/label
     private static final String LOG_TAG = AddLabel.class.getSimpleName();
-    private static final String BASE_URL =  "http://10.0.2.2:5000/api/"; // Base URI
+    private static final String BASE_URL =  "http://10.20.20.101:5000/api/"; // Base URI
     private static final String LABEL_1 =  "pattern";
     private static final String LABEL_2 =  "label";
 
@@ -53,6 +53,9 @@ public class AddLabel extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.connect();
+
+            Log.d(LOG_TAG, "Should see this message if connection is successful 1");
 
 
             //---- Set the header and method
@@ -60,13 +63,17 @@ public class AddLabel extends AsyncTask<String, Void, String> {
             writer.write(JsonDATA);
             writer.close();
 
+            Log.d(LOG_TAG, "Should see this message if connection is successful 2");
+
             //---- Setup the input stream to receive the response
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            Log.d(LOG_TAG, "Should see this message if connection is successful 3");
+
             if( inputStream == null){
                 return null;
             }
 
+            StringBuilder buffer = new StringBuilder();
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while (( line = reader.readLine()) != null) {
@@ -77,6 +84,8 @@ public class AddLabel extends AsyncTask<String, Void, String> {
                 // Stream was empty.  No point in parsing.
                 return null;
             }
+
+            Log.d(LOG_TAG, "Should see this message if connection is successful 4");
 
             JsonResponse = buffer.toString(); // The final JSON output is saved as a string
 

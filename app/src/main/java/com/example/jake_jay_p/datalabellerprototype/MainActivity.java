@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void processFinish(String[] output) {
-                        Log.d(LOG_TAG, "LETS SEE " + output[0]);
+//                        Log.d(LOG_TAG, "Did we get output: " + output[0]);
                         all_labels = output;    // Get the labels from the asynchronous task
                     }
                 }).execute(deviceID);
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
         // ---- Add a label into the db
         String chosenLabel = label.getText().toString();        // Get the random label suggested
         if(deviceID == null)
-            deviceID = "990000862401822";   // This is a fall back - must have been a problem getting the IMEI
+            deviceID = "990000862401822";   // This is a fall back in case there is a problem getting the IMEI
         else
-            Log.d(LOG_TAG, deviceID);
+            Log.d(LOG_TAG, "Device ID is: " + deviceID);
 
         JSONObject toPost = new JSONObject();                   // The data that is sent to the API
 
