@@ -107,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * The actual call the asynchronous task that connects to the DB and retrieves
-     * and image and the label set associated with the image.
+     * The actual call to the asynchronous task that connects to the DB and retrieves
+     * an image and the label set associated with the image. The entire set of labels is passed to
+     * the variable all_labels which cna be iterated through for each image until the correct label
+     * is found or the next image is retrieved.
      */
     public void retrieveImageLabelSet(){
 
@@ -117,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void processFinish(String[] output) {
-//                        Log.d(LOG_TAG, "Did we get output: " + output[0]);
                         all_labels = output;    // Get the labels from the asynchronous task
                     }
                 }).execute(deviceID);
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * When the YES button is pressed
-     * Updates the db with a confirmation
+     * Updates the db with a new label confirming what was suggested by the app.
      * @param view
      */
     public void proceedYes(View view)

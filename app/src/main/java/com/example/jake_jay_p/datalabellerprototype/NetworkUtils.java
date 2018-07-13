@@ -10,20 +10,36 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+/**
+ * <h>Network Utility</h>
+ *
+ * <p>
+ *     A utility class that can be generalised to connect to any API and pass a string parameter
+ *     to it. The response is then captured in a JSON response and returned to the asynchronous task
+ *     which called the object instance.
+ * </p>
+ */
 public class NetworkUtils
 {
 
-    // Log tag
+    // ---- Log tag
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    // Will be bound together to make a single URI
+    // ---- Will be bound together into a single URI (change to connect to another API)
     private static final String BASE_URL =  "http://10.20.20.101:5000/api/"; // Base URI
     private static final String GET_PATTERN =  "pattern";
     private static final String UNLABELLED =  "unlabelled"; // Base URI
 
 
     // ---- Method takes a string (query) and returns the JSON output from the API
+
+    /**
+     * Method that can be called by any asynchronous task in this package. It connects to the API,
+     * retrieves, and then returns the JSON response.
+     *
+     * @param deviceID Device ID of registered Device (IMEI)
+     * @return JSON response from the web server.
+     */
     static String getPattern(String deviceID){
 
         // Local variables needed to setup the connection
@@ -42,9 +58,10 @@ public class NetworkUtils
                             .build();
             URL requestURL = new URL(builtURI.toString());
 
+            // ---- Check that the URL has been built correctly.
             Log.d(LOG_TAG, requestURL.toString());
 
-            // ----Make the connection
+            // ---- Make the connection
             conn = (HttpURLConnection) requestURL.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
@@ -56,14 +73,11 @@ public class NetworkUtils
                 return null;
             }
 
-            reader = new BufferedReader(new InputStreamReader(inputStream)); // Buffer reader reads input stream
-
-            StringBuffer buffer = new StringBuffer();   // Used to store the response
+            reader = new BufferedReader(new InputStreamReader(inputStream));  // Reads input stream
+            StringBuffer buffer = new StringBuffer();                         // Store the response
             String line;
             while (( line = reader.readLine()) != null) {
-                /* Since it's JSON, adding a newline isn't necessary (it won't affect
-                parsing) but it does make debugging a easier if you print out the
-  c             completed buffer for debugging. */
+
                 buffer.append(line + "\n");
             }
 
@@ -74,13 +88,13 @@ public class NetworkUtils
 
             JSONString = buffer.toString(); // The final JSON output is saved as a string
 
-            // ---- Can return the full response from the server
+            // ---- Can print the full response from the server to the logcat
             // Log.d(LOG_TAG, "\n"+ bookJSONString);
             return JSONString;
 
         }
         catch (Exception ex){
-            Log.d(LOG_TAG, "Network connection failed");
+            Log.d(LOG_TAG, "Network connection failed", ex);
             ex.printStackTrace();
             return null;
         }

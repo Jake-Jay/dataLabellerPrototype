@@ -15,13 +15,30 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
+/**
+ * <h>Register User</h>
+ * <p>
+ *     Registers a new user in the database so that they can label images. If they are not
+ *     registered, none of their actions will be logged. If they are already registered, the DB is
+ *     not changed.
+ * </p>
+ */
 public class RegisterUser extends AsyncTask<String, Void, String> {
 
+    // ---- Set the parameters to connect to the API of choice
     private static final String LOG_TAG = RegisterUser.class.getSimpleName();
-    private static final String BASE_URL =  "http://10.20.20.101:5000/api/"; // Base URI
-    private static final String LABEL_1 =  "register";
+    private static final String BASE_URL =  "http://10.20.20.101:5000/api/";    // Base URI
+    private static final String LABEL_1 =  "register";                          // Register Device
 
 
+    /**
+     * Asynchronous task that connects to the API to register a user by passing their device IMEI to
+     * the API.
+     *
+     * @param strings Should have only one element - contains the JSON data to be passed to the API
+     * @return String Message received from the API.
+     */
     @Override
     protected String doInBackground(String... strings) {
 
@@ -37,7 +54,7 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
             Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                     .appendPath(LABEL_1)
                     .build();
-            URL postURL = new URL("http://10.20.20.101:5000/api/register");
+            URL postURL = new URL( builtURI.toString() );
             Log.d(LOG_TAG, postURL.toString());
             urlConnection = (HttpURLConnection) postURL.openConnection();
             urlConnection.setDoOutput(true);
@@ -46,14 +63,14 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
             urlConnection.setRequestProperty("Accept", "application/json");
             urlConnection.connect();
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 1");
+            Log.d(LOG_TAG, "Connection is successful");
 
             //---- Set the header and method
             Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
             writer.write(JsonDATA);
             writer.close();
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 2");
+            Log.d(LOG_TAG, "Data sent to API");
 
             //---- Setup the input stream to receive the response
             InputStream inputStream = urlConnection.getInputStream();
@@ -62,7 +79,7 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
                 return null;
             }
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 3");
+            Log.d(LOG_TAG, "Response received from API");
 
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
@@ -83,7 +100,7 @@ public class RegisterUser extends AsyncTask<String, Void, String> {
 
 
         } catch (MalformedURLException e) {
-            Log.d(LOG_TAG, "Cannot create URL: " + e);
+            Log.d(LOG_TAG, "Cannot create URL: ", e);
         } catch (IOException e) {
             Log.d(LOG_TAG, "Error opening connection: ", e);
         } finally {

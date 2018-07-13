@@ -19,16 +19,31 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * <h>Add Label</h>
+ *
+ * <p>
+ *     Updates the database with a label that is unique to the device (IMEI), pattern (using the
+ *     pattern ID); and the label. The label and the device ID are sent as a JSON formatted message
+ *     to the API.
+ * </p>
+ */
 public class AddLabel extends AsyncTask<String, Void, String> {
 
-    //    POST -d '{"device_number":"990000862401821", "label":"hansa"}'
-    //    http://localhost:5000/api/pattern/5/label
+
+    // ---- Parameters used to build the URL
     private static final String LOG_TAG = AddLabel.class.getSimpleName();
     private static final String BASE_URL =  "http://10.20.20.101:5000/api/"; // Base URI
     private static final String LABEL_1 =  "pattern";
     private static final String LABEL_2 =  "label";
 
-
+    /**
+     * Connects to the API and adds a label for the particular image currently shown in the UI.
+     *
+     * @param strings Contains the JSONData (label, device ID); and the pattern ID for the image
+     *                that is being labelled.
+     * @return The JSON response from the API
+     */
     @Override
     protected String doInBackground(String... strings) {
 
@@ -47,7 +62,10 @@ public class AddLabel extends AsyncTask<String, Void, String> {
                     .appendPath(LABEL_2)
                     .build();
             URL postURL = new URL(builtURI.toString());
-            Log.d(LOG_TAG, postURL.toString());
+
+            Log.d(LOG_TAG, postURL.toString()); // Check that the URL is built correctly
+
+            // ---- Connect to the API
             urlConnection = (HttpURLConnection) postURL.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
@@ -55,19 +73,17 @@ public class AddLabel extends AsyncTask<String, Void, String> {
             urlConnection.setRequestProperty("Accept", "application/json");
             urlConnection.connect();
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 1");
-
+            Log.d(LOG_TAG, "Connection to API successful");
 
             //---- Set the header and method
             Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
             writer.write(JsonDATA);
             writer.close();
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 2");
+            Log.d(LOG_TAG, "Sent data to API");
 
             //---- Setup the input stream to receive the response
             InputStream inputStream = urlConnection.getInputStream();
-            Log.d(LOG_TAG, "Should see this message if connection is successful 3");
 
             if( inputStream == null){
                 return null;
@@ -80,19 +96,16 @@ public class AddLabel extends AsyncTask<String, Void, String> {
                 buffer.append(line + "\n");
             }
 
+            Log.d(LOG_TAG, "Received response from API");
+
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
                 return null;
             }
 
-            Log.d(LOG_TAG, "Should see this message if connection is successful 4");
-
             JsonResponse = buffer.toString(); // The final JSON output is saved as a string
-
             Log.d(LOG_TAG, JsonResponse);
-
             return JsonResponse;
-
 
         } catch (MalformedURLException e) {
             Log.d(LOG_TAG, "Cannot create URL: " + e);

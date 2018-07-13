@@ -20,7 +20,27 @@ import org.w3c.dom.Text;
 
 import java.util.Random;
 
-
+/**
+ * <h>Get Unlabelled Image</h>
+ * <p>
+ *     Connects to the API where it requests a package that contains an image (base64);
+ *     the image ID; and a set of potential labels that could describe the object in the image. The
+ *     onPoseExecute function is on the UI thread and changes the UI to display the image that was
+ *     retrieved as well as a label that was randomly chosen from the set of labels. The result of
+ *     the onPostExecute function, which consists of the entire set of labels, is then passed back
+ *     to the Main Activity via the Async Response interface.
+ * </p>
+ *
+ * <p>
+ *     The device ID is required when requesting an image to ensure that a registered user will
+ *     never see the same image twice. This means that they only get one chance to label the image.
+ * </p>
+ *
+ * <p>
+ *     If there are no images left for the user to label the UI will be changed to show that there
+ *     is nothing more to label.
+ * </p>
+ */
 public class GetUnlabelledImage extends AsyncTask<String, Void, String>
 {
 
@@ -60,10 +80,12 @@ public class GetUnlabelledImage extends AsyncTask<String, Void, String>
     }
 
     /**
+     * Completed on an asynchronous thread and therefore cannot change the UI.
      * Connects to the DB and gets a JSON output which contains the new pattern, potential labels,
-     * data type, patternID
-     * @param strings
-     * @return
+     * data type, patternID.
+     *
+     * @param strings Contains the device ID
+     * @return JSON response from the anonymous Network Utility object that connects to the API.
      */
     @Override
     protected String doInBackground(String... strings)
@@ -74,8 +96,16 @@ public class GetUnlabelledImage extends AsyncTask<String, Void, String>
     }
 
     /**
-     *
-     * @param s
+     * <p>
+     *     The onPostExecute function is able to manipulate the UI thread. It takes the data returned
+     *     by the asynchronous task and uses it to update the image view as well as the proposed label
+     *     (which it randomly picks from the set of labels received in the JSON response).
+     * </p>
+     * <p>
+     *     If there are no images left for this particular device to label then the Image View and
+     *     label are changed to reflect this.
+     * </p>
+     * @param s Contains the response that was returned by the DB
      */
     @Override
     protected void onPostExecute(String s) {
@@ -107,7 +137,7 @@ public class GetUnlabelledImage extends AsyncTask<String, Void, String>
             // ---- Try to set the array of labels on the UI thread
             delegate.processFinish(allLabels);
 
-            // ---- Save ImageID in text view
+            // ---- Save ImageID in text view (this is invisible to the user)
             hiddenID.setText(image_ID);
 
             // ---- Find a random label from the list and set TextView
@@ -134,6 +164,12 @@ public class GetUnlabelledImage extends AsyncTask<String, Void, String>
     }//end postExecute
 
 
+    /**
+     * Generates a random integer within certain bounds.
+     * @param min Minimum value
+     * @param max Maximum value
+     * @return Random integer
+     */
     public static int randInt(int min, int max) {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
@@ -141,7 +177,9 @@ public class GetUnlabelledImage extends AsyncTask<String, Void, String>
 
 
     /**
-     * Create an alert to show that there is no network connection
+     * Create an alert to show that there is no network connection.
+     * This is likely due to the server being down. If the user presses 'OK' and proceeds to use the
+     * app while the server issue has not yet been resolved, the app will fail.
      */
     public void dbAlert(){
         AlertDialog.Builder myAlertBuilder = new
